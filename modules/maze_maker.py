@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 
+###################################################################
+# Code by Peter Norvig
+# ref: https://github.com/norvig/pytudes/blob/main/ipynb/Maze.ipynb
+#
+# MIT License, https://github.com/norvig/pytudes/blob/main/LICENSE
+###################################################################
+
 import random
 import matplotlib.pyplot as plt
 from collections import deque, namedtuple
