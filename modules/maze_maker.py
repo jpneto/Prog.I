@@ -14,7 +14,8 @@ from collections import deque, namedtuple
 Edge = tuple
 Tree = set
 
-def edge(A, B) -> Edge: return Edge(sorted([A, B]))
+def edge(A, B) -> Edge: 
+  return Edge(sorted([A, B]))
 
 def random_tree(nodes, neighbors, pop=deque.pop) -> Tree:
     """Repeat: pop a node and add edge(node, nbr) until all nodes have been added to tree."""
@@ -53,7 +54,7 @@ def random_maze(width, height, pop=deque.pop) -> Maze:
     return Maze(width, height, tree)
 
 
-def plot_maze(maze, figsize=None, path=None):
+def plot_maze(maze, figsize=None, path=None, frontier=None):
     """Plot a maze by drawing lines between adjacent squares, except for pairs in maze.edges"""
     w, h  = maze.width, maze.height
     plt.figure(figsize=figsize or (w/5, h/5))
@@ -68,6 +69,10 @@ def plot_maze(maze, figsize=None, path=None):
     if path: # Plot the solution (or any path) as a red line through the maze
         X, Y = transpose((x + 0.5, y + 0.5) for (x, y) in path)
         plt.plot(X, Y, 'r-', linewidth=2)
+    if frontier:
+        for X,Y in frontier:
+          plt.plot(X+0.5,Y+0.5, marker="o", markersize=8, 
+                   markeredgecolor="green", markerfacecolor="green")
         
 def transpose(matrix): return list(zip(*matrix))
 
@@ -81,3 +86,40 @@ def plot_wall(s1, s2):
         x = max(x1, x2)
         X, Y = [x, x], [y1, y1+1]
     plt.plot(X, Y, 'k-', linewidth=2)  
+    
+    
+def breadth_paths(maze):
+    before, start = (0, -1), (0, 0)
+    goal = (maze.width-1, maze.height-1)
+    frontier = deque([start])  # states to consider
+    paths = {start: [before, start]}   # start has a one-square path
+    path_history = [paths[start]]
+    frontier_history = [list(frontier)]
+    while frontier:
+        frontier_history.append(list(frontier))
+        s = frontier.popleft()
+        path_history.append(paths[s])
+        if s == goal:
+            return path_history, frontier_history
+        for s2 in neighbors4(s):
+            if s2 not in paths and edge(s, s2) in maze.edges:
+                frontier.append(s2)
+                paths[s2] = paths.get(s, []) + [s2]    
+                
+def depth_paths(maze):
+    before, start = (0, -1), (0, 0)
+    goal = (maze.width-1, maze.height-1)
+    frontier = deque([start])  # states to consider
+    paths = {start: [before, start]}   # start has a one-square path
+    path_history = [paths[start]]
+    frontier_history = [list(frontier)]
+    while frontier:
+        frontier_history.append(list(frontier))
+        s = frontier.pop()
+        path_history.append(path_history[s])
+        if s == goal:
+            return path_history, frontier_history
+        for s2 in neighbors4(s):
+            if s2 not in paths and edge(s, s2) in maze.edges:
+                frontier.append(s2)
+                paths[s2] = paths.get(s, []) + [s2]
