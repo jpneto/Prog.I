@@ -17,8 +17,10 @@ Tree = set
 def edge(A, B) -> Edge: 
   return Edge(sorted([A, B]))
 
-def random_tree(nodes, neighbors, pop=deque.pop) -> Tree:
+def random_tree(nodes, neighbors, pop=deque.pop, seed=0) -> Tree:
     """Repeat: pop a node and add edge(node, nbr) until all nodes have been added to tree."""
+    if seed > 0:
+      random.seed(seed)
     tree = Tree()
     nodes = set(nodes)
     root = nodes.pop()
