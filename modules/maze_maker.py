@@ -116,7 +116,7 @@ def depth_paths(maze):
     while frontier:
         frontier_history.append(list(frontier))
         s = frontier.pop()
-        path_history.append(path_history[s])
+        path_history.append(paths[s])
         if s == goal:
             return path_history, frontier_history
         for s2 in neighbors4(s):
