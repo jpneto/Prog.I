@@ -17,10 +17,8 @@ Tree = set
 def edge(A, B) -> Edge: 
   return Edge(sorted([A, B]))
 
-def random_tree(nodes, neighbors, pop=deque.pop, seed=0) -> Tree:
+def random_tree(nodes, neighbors, pop=deque.pop) -> Tree:
     """Repeat: pop a node and add edge(node, nbr) until all nodes have been added to tree."""
-    if seed > 0:
-      random.seed(seed)
     tree = Tree()
     nodes = set(nodes)
     root = nodes.pop()
@@ -50,8 +48,10 @@ def grid(width, height) -> {Square}:
     """All squares in a grid of these dimensions."""
     return {(x, y) for x in range(width) for y in range(height)}
 
-def random_maze(width, height, pop=deque.pop) -> Maze:
+def random_maze(width, height, pop=deque.pop, seed=0) -> Maze:
     """Generate a random maze, using random_tree."""
+    if seed > 0:
+      random.seed(seed)    
     tree = random_tree(grid(width, height), neighbors4, pop)
     return Maze(width, height, tree)
 
