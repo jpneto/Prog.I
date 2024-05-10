@@ -1,0 +1,91 @@
+﻿UC;Area;Nome
+425230;OUT;Análise e Gestão de Risco em Segurança Informática
+425109;MC;Animação e Ambientes Virtuais
+425110;SI;Aplicações na Web
+425216;MC;Aprendizagem Automática
+425269;MC;Aprendizagem Automática Avançada
+425220;MC;Aprendizagem Automática nas Ciências
+425276;SI;Bases de Dados Avançadas
+425194;SI;Bioinformática
+425232;OSC;Cibercrime e Análise Forense
+425246;MC;Complementos de Aprendizagem Automática
+425202;CTP;Complementos de Programação
+425238;MC;Computação Declarativa
+425240;OSC;Computação em Nuvem
+425113;SI;Computação Móvel
+425199;MC;Computação Natural
+425252;CTP;Computação Quântica
+425115;OSC;Configuração e Gestão de Sistemas
+425196;OSC;Data Warehousing e Data Mining
+425116;CTP;Desenho e Análise de Algoritmos
+425266;SI;Desenho e Desenvolvimento de Jogos
+425117;SI;Design de Software
+425118;OSC;Deteção e Tolerância a Intrusões
+425231;OSC;Direito da Cibersegurança
+425120;CEGO;Estrutura e Gestão das Organizações
+425278;OUT;Estudo Orientado em Engenharia Informática
+425272;OUT;Estudo Orientado em Informática
+425274;OUT;Estudo Orientado em Segurança Informática
+425241;OUT;Estudos Avançados em Bioinformatica e Biologia Computacional
+425239;SI;Experiência de Utilização
+425255;CTP;Fundamentos da Computação
+425203;CTP;Fundamentos de Programação
+425121;OSC;Fundamentos de Segurança
+425244;MC;Fundamentos da Web Semântica
+425247;MC;Fundamentos de Ciência de Dados
+425262;CTP;Fundamentos de Linguagens de Programação
+425122;SI;Gestão de Projetos
+425123;MC;Gestão do Conhecimento
+425277;CEGO;Gestão e Organização Empresarial
+425124;SI;Integração e Processamento Analítico de Informação
+425254;MC;Inteligência Artificial
+425205;MC;Inteligência Artificial em Jogos
+425125;MC;Interação em Linguagem Natural
+425236;OSC;Internet das Coisas
+425250;MC;Introdução à Investigação em Ciência de Dados
+425173;OSC;Introdução à Segurança Informática
+425105;SI;Introdução às Bases de Dados
+425126;SI;Jogos Interativos
+425267;CTP;Linguagens de Domínio
+425280;OSC;Metodologias Ofensivas e Defensivas de CiberSegurança
+425253;SI;Métodos e Estudos com Utilizadores
+425257;MC;Modelos da Computação
+425128;SI;Multimédia
+425213;MC;Ontologias aplicadas às Ciências
+425281;OSC;Privacidade e Segurança dos Dados
+425234;OSC;Procedimentos de Segurança e Manuseamento de Informação Classificada
+425132;OSC;Programação em Sistemas Distribuídos
+425229;OSC;Programação para Cluster e Multicore
+425221;CTP;Programação Por Objetos
+425263;CTP;Programação Paralela e Concorrente
+425242;MC;Prospeção de Dados
+425133;MC;Prospeção e Descoberta da Informação
+425134;OSC;Protocolos em Redes de Dados
+425135;SI;Qualidade de Software
+425208;MC;Robôs Móveis
+425175;OSC;Segurança Aplicada
+425141;OSC;Segurança de Software
+425259;OUT;Seminário de Investigação I
+425260;OUT;Seminário de Investigação II
+425179;OSC;Sistemas de Software Seguros
+425248;OUT;Seminário em Ciência de Dados
+425210;SI;Sistemas Interativos em Ciências
+425237;OSC;Sistemas Ciberfísicos
+425146;MC;Sistemas Multi-Agente
+425148;CEGO;Sociologia das Organizações
+425149;CTP;Software Fiável
+425150;CTP;Técnicas de Compilação
+425151;SI;Técnicas de Interação Avançadas
+425152;SI;Tecnologia de Bases de Dados
+425256;OUT;Tecnologia da Linguagem
+425153;OSC;Tecnologias de Middleware
+425245;MC;Tecnologias de Processamento de Dados
+425154;OSC;Tecnologias de Segurança
+425157;OSC;Tolerância a Faltas Distribuída
+425184;OSC;Tolerância a Intrusões
+425258;OUT;Tópicos Avançados de Ciência Cognitiva
+425159;CTP;Verificação e Validação de Software
+425160;MC;Vida Artificial
+425161;MC;Visualização
+425243;MC;Visualização de Dados
+425212;MC;Visualização de Dados Científicos
