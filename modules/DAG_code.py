@@ -89,11 +89,8 @@ assert make_edges("A>B A>C B<C") == [('A','B'), ('A','C'), ('C','B')]
 
 
 # main user function
-def text2graph(graph_text, show=False):
-  g = makeGraph(edges=make_edges(graph))
-  if show:
-    showGraph(g)
-  return g
+def show_graph(graph_text):
+  showGraph(makeGraph(edges=make_edges(graph)))
 
 
 ############## Spran-Grundy Theory ################        
@@ -133,6 +130,13 @@ def sprang_grundy(g, verbose=False):
   if verbose:
     print('\n', sorted(new_labels.values()))
   return nx.relabel_nodes(g, new_labels)  # change graph labels
+
+
+def show_sprang_grundy(graph, verbose=False):
+  g = makeGraph(edges=make_edges(graph))
+  g2 = sprang_grundy(g, verbose)
+  showGraph(g2)
+  
 
 if __name__ == "__main__":
   graph = """
@@ -217,6 +221,12 @@ def frankel_smith_pearl(g, verbose=False):
   return nx.relabel_nodes(g, new_labels)  # change graph labels
 
 
+def show_frankel_smith_pearl(graph, verbose=False):
+  g = makeGraph(edges=make_edges(graph))
+  g2 = frankel_smith_pearl(g, verbose)
+  showGraph(g2)
+  
+  
 if __name__ == "__main__":
   graph2 = """
   A>B A>C
@@ -327,6 +337,13 @@ def larsen_nowakovski_santos(g, grey_nodes, verbose=False):
   return nx.relabel_nodes(g, new_labels)  # change graph labels
 
 
+def show_larsen_nowakovski_santos(graph, grey_nodes, verbose=False):
+  g = makeGraph(edges=make_edges(graph))
+  add_grey_nodes(g, grey_nodes)
+  g2 = larsen_nowakovski_santos(g, grey_nodes, verbose)
+  showGraph(g2)
+  
+  
 if __name__ == "__main__":
   graph3 = """
   A>B A>C
@@ -341,9 +358,6 @@ if __name__ == "__main__":
   g3 = makeGraph(edges=make_edges(graph3))
   add_grey_nodes(g3, 'EG')
   larsen_nowakovski_santos(g3, grey_nodes='EG', verbose=True)
-
-
-
 
 
 
