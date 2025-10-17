@@ -87,11 +87,9 @@ def make_edges(g):
 
 assert make_edges("A>B A>C B<C") == [('A','B'), ('A','C'), ('C','B')]
 
-
 # main user function
 def show_graph(graph):
   showGraph(makeGraph(edges=make_edges(graph)))
-
 
 ############## Spran-Grundy Theory ################        
  
@@ -359,7 +357,64 @@ if __name__ == "__main__":
   add_grey_nodes(g3, 'EG')
   larsen_nowakovski_santos(g3, grey_nodes='EG', verbose=True)
 
+##########################################################
+# transform a board into a graph
 
+def read_board(board):
+  coord = lambda i,j: chr(64+i) + str(j)
+  graph_text = []
+
+  # make coordinates for black moves
+  lines = board.split('\n')[1:-1] # remove first and last line   
+  for i, line in enumerate(lines, start=1):
+    for j, cell in enumerate(line.strip().split(' '), start=1):
+      for k in range(1, j):         # add horizontal edges
+        graph_text.append( coord(i,j) + '>' + coord(i,k) )
+      for k in range(1, i):         # add vertical edges
+        graph_text.append( coord(i,j) + '>' + coord(k,j) )  
+      for k in range(1, min(i,j)):  # add diagonal edges
+        graph_text.append( coord(i,j) + '>' + coord(i-k,j-k) )
+
+  # make coordinates for white moves
+  coord2 = lambda i,j: chr(64+i) + chr(64+i) + str(j)
+  for i in range(3, 1+lines[0].count('.'), 2): # just jump to the next white diagonal
+    for j in range(i):
+      for k in range(i):
+        if j<=k: continue # no self-loops and  avoid duplicates
+        graph_text.append( coord2(i-k, k+1) + '>' + coord2(i-j, j+1) )
+        graph_text.append( coord2(i-k, k+1) + '<' + coord2(i-j, j+1) )
+  
+  # make coordinates for white -> black flips
+  coord3 = lambda i,j: 'G_' + chr(64+i) + str(j)
+  for i in range(3, 1+lines[0].count('.'), 2): # just jump to the next white diagonal
+    for j in range(i):
+      r, c = i-j, j+1
+      if r > 1: # connect to the north cell in black board, via a grey node
+        graph_text.append( coord2(r, c) + '>' + coord3(r-1, c) )
+        graph_text.append( coord3(r-1, c) + '>' + coord(r-1, c) )
+      if c > 1: # connect to the west cell in black board, via a grey node
+        graph_text.append( coord2(r, c) + '>' + coord3(r, c-1) )
+        graph_text.append( coord3(r, c-1) + '>' + coord(r, c-1) )
+ 
+  return ' '.join(graph_text)
+
+
+if __name__ == "__main__":
+  board = """
+  . . . . .
+  . . . .
+  . . .
+  . .
+  .  
+  """
+
+  board = """
+  . . .
+  . .
+  .  
+  """
+  graph = read_board(board)
+  print('\n'*2, graph)
 
 ##########################################################
 # [old code, to delete]
