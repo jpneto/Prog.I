@@ -87,6 +87,15 @@ def make_edges(g):
 
 assert make_edges("A>B A>C B<C") == [('A','B'), ('A','C'), ('C','B')]
 
+
+# main user function
+def text2graph(graph_text, show=False):
+  g = makeGraph(edges=make_edges(graph))
+  if show:
+    showGraph(g)
+  return g
+
+
 ############## Spran-Grundy Theory ################        
  
 def mexes(ns):
