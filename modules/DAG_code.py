@@ -360,12 +360,15 @@ if __name__ == "__main__":
 ##########################################################
 # transform a board into a graph
 
-def read_board(board):
+def read_board(size):
+  # TODO: legacy code, initially I thought board could have arbitrary shapes
+  #       but they are always triangular
+  board = '\n'.join('. '*(size-i) for i in range(size)) 
   coord = lambda i,j: chr(64+i) + str(j)
   graph_text = []
 
   # make coordinates for black moves
-  lines = board.split('\n')[1:-1] # remove first and last line   
+  lines = board.split('\n')
   for i, line in enumerate(lines, start=1):
     for j, cell in enumerate(line.strip().split(' '), start=1):
       for k in range(1, j):         # add horizontal edges
@@ -403,22 +406,30 @@ def read_board(board):
 
 
 if __name__ == "__main__":
-  board = """
-  . . . . .
-  . . . .
-  . . .
-  . .
-  .  
-  """
-
-  board = """
-  . . .
-  . .
-  .  
-  """
-  graph, black_graph = read_board(board)
+  graph, black_graph = read_board(4)
   print('\n'*2, graph)
   print('\n'*2, black_graph)
+  
+
+### useful functions for algorithm 4
+
+def compute_Grundy_values(size):
+  graph, black_graph = read_board(size)
+  # compute Grundy function of Wythoff’s game
+  g = sprang_grundy(makeGraph(edges=make_edges(black_graph)))
+  # return values as a dictionary, eg: dict['A1'] = 0
+  return {node.split('/')[0] : int(node.split('/')[1]) for node in g.nodes}
+
+def print_Grundy_values(size):
+  coord = lambda i,j: chr(65+i) + str(j+1)  # maps (row,col) to Chess-like coordinate
+  grundy = compute_Grundy_values(size)
+  width = max(map(lambda n: len(str(n)), grundy.values())) # compute max width needed
+  for row in range(size):
+    print(''.join(f'{grundy[coord(row, col)]:{width+2}}' for col in range(size-row)))
+
+if __name__ == "__main__":
+  # cf. https://library.slmath.org/books/Book56/files/43nivasch.pdf  
+  print_Grundy_values(16)  
 
 ##########################################################
 # [old code, to delete]
