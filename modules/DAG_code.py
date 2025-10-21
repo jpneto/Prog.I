@@ -374,6 +374,9 @@ def read_board(board):
         graph_text.append( coord(i,j) + '>' + coord(k,j) )  
       for k in range(1, min(i,j)):  # add diagonal edges
         graph_text.append( coord(i,j) + '>' + coord(i-k,j-k) )
+  # save the boasrd where the black pieces move, since its computation
+  # is just applying Sprang-Grundy theory
+  black_board = graph_text[:]
 
   # make coordinates for white moves
   coord2 = lambda i,j: chr(64+i) + chr(64+i) + str(j)
@@ -396,7 +399,7 @@ def read_board(board):
         graph_text.append( coord2(r, c) + '>' + coord3(r, c-1) )
         graph_text.append( coord3(r, c-1) + '>' + coord(r, c-1) )
  
-  return ' '.join(graph_text)
+  return ' '.join(graph_text), ' '.join(black_board)
 
 
 if __name__ == "__main__":
@@ -413,8 +416,9 @@ if __name__ == "__main__":
   . .
   .  
   """
-  graph = read_board(board)
+  graph, black_graph = read_board(board)
   print('\n'*2, graph)
+  print('\n'*2, black_graph)
 
 ##########################################################
 # [old code, to delete]
