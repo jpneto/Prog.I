@@ -361,7 +361,7 @@ if __name__ == "__main__":
 # transform a board into a graph
 
 def read_board(size):
-  # TODO: legacy code, initially I thought board could have arbitrary shapes
+  # TODO: legacy code: initially I thought board could have arbitrary shapes
   #       but they are always triangular
   board = '\n'.join('. '*(size-i) for i in range(size)) 
   coord = lambda i,j: chr(64+i) + str(j)
@@ -377,8 +377,8 @@ def read_board(size):
         graph_text.append( coord(i,j) + '>' + coord(k,j) )  
       for k in range(1, min(i,j)):  # add diagonal edges
         graph_text.append( coord(i,j) + '>' + coord(i-k,j-k) )
-  # save the boasrd where the black pieces move, since its computation
-  # is just applying Sprang-Grundy theory
+  # save the board where the black pieces move, since its values
+  # are just those from Sprang-Grundy theory
   black_board = graph_text[:]
 
   # make coordinates for white moves
@@ -389,6 +389,17 @@ def read_board(size):
         if j<=k: continue # no self-loops and  avoid duplicates
         graph_text.append( coord2(i-k, k+1) + '>' + coord2(i-j, j+1) )
         graph_text.append( coord2(i-k, k+1) + '<' + coord2(i-j, j+1) )
+  # we also need to deal with white stones in black squares        
+  for i, line in enumerate(lines, start=1):  
+    for j, cell in enumerate(line.strip().split(' '), start=1):
+      if (i+j)%2 == 0: continue  # a white square
+      for k in range(1, j):         # add horizontal edges
+        graph_text.append( coord2(i,j) + '>' + coord2(i,k) )
+      for k in range(1, i):         # add vertical edges
+        graph_text.append( coord2(i,j) + '>' + coord2(k,j) )  
+      for k in range(1, min(i,j)):  # add diagonal edges
+        graph_text.append( coord2(i,j) + '>' + coord2(i-k,j-k) )      
+    
   
   # make coordinates for white -> black flips
   coord3 = lambda i,j,k,l: 'G_' + chr(64+i) + str(j) + chr(64+k) + str(l)
@@ -429,5 +440,5 @@ def print_Grundy_values(size):
 
 if __name__ == "__main__":
   # cf. https://library.slmath.org/books/Book56/files/43nivasch.pdf  
-  print_Grundy_values(16)  
+  print_Grundy_values(4)  
 
