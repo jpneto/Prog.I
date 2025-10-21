@@ -391,22 +391,22 @@ def read_board(size):
         graph_text.append( coord2(i-k, k+1) + '<' + coord2(i-j, j+1) )
   
   # make coordinates for white -> black flips
-  coord3 = lambda i,j: 'G_' + chr(64+i) + str(j)
+  coord3 = lambda i,j,k,l: 'G_' + chr(64+i) + str(j) + chr(64+k) + str(l)
   for i in range(3, 1+lines[0].count('.'), 2): # just jump to the next white diagonal
     for j in range(i):
       r, c = i-j, j+1
       if r > 1: # connect to the north cell in black board, via a grey node
-        graph_text.append( coord2(r, c) + '>' + coord3(r-1, c) )
-        graph_text.append( coord3(r-1, c) + '>' + coord(r-1, c) )
+        graph_text.append( coord2(r, c) + '>' + coord3(r, c, r-1, c) )
+        graph_text.append( coord3(r, c, r-1, c) + '>' + coord(r-1, c) )
       if c > 1: # connect to the west cell in black board, via a grey node
-        graph_text.append( coord2(r, c) + '>' + coord3(r, c-1) )
-        graph_text.append( coord3(r, c-1) + '>' + coord(r, c-1) )
+        graph_text.append( coord2(r, c) + '>' + coord3(r, c, r, c-1) )
+        graph_text.append( coord3(r, c, r, c-1) + '>' + coord(r, c-1) )
  
   return ' '.join(graph_text), ' '.join(black_board)
 
 
 if __name__ == "__main__":
-  graph, black_graph = read_board(4)
+  graph, black_graph = read_board(3)
   print('\n'*2, graph)
   print('\n'*2, black_graph)
   
