@@ -91,7 +91,7 @@ assert make_edges("A>B A>C B<C") == [('A','B'), ('A','C'), ('C','B')]
 def show_graph(graph):
   showGraph(makeGraph(edges=make_edges(graph)))
 
-############## Spran-Grundy Theory ################        
+############## Sprag-Grundy Theory ################        
  
 def mexes(ns):
   if not ns:
@@ -442,3 +442,51 @@ if __name__ == "__main__":
   # cf. https://library.slmath.org/books/Book56/files/43nivasch.pdf  
   print_Grundy_values(4)  
 
+#################
+
+def cyclic_carry_on(graph, grey_nodes, verbose=False):
+  ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == "__main__":
+  graph4 = """
+  A1<A2                         A4<A5
+  A1>B1 A2>B2 A2>B3 A3<B3 A3>B4 A4>B4 A5<B5 A6<B6 A7<B7
+        B2>C2                         B5<C5 B6<C6 B7<C7
+  C1<C1 C1<C3 C2<C3             C4>C5 C5<C5 C5>C6 C6>C7
+  C1<D1 C2>D2 C3>D3             C4<D4       C6<D6
+        D2<D3             D4>D5             D6<D7
+  D1<E1 D2>E2 D2>E3 D3>E2 D3>E3 D3<E4 D4<E4 D5<E5 D7<E7
+  E1>C2 C3>E4
+  E1>E5                                     E5<E6 E6>E7
+  """
+  g4 = makeGraph(edges=make_edges(graph4))
+  grey_nodes = 'A4 B2 B4 C1 C2 C4 C7 D6 D7 E5'.split()
+  add_grey_nodes(g4, grey_nodes)
+  cyclic_carry_on(g4, grey_nodes)
+
+
+
+
+
+
+
+
+
+
+  
