@@ -136,19 +136,19 @@ def show_sprang_grundy(graph, verbose=False):
   showGraph(g2)
   
 
-if __name__ == "__main__":
-  graph = """
-  A>B A>C
-  B>C
-  B<D B>E C<E C<F
-  D>E E<F
-  D<G D<H E<H E<I F<I F<J
-  G<H H>I I>J
-  """
-  g = makeGraph(edges=make_edges(graph))
-  sprang_grundy(g, verbose=True) 
-  # {'B/2', 'J/0', 'A/1', 'C/0', 'I/3', 'G/1', 
-  #  'F/2', 'D/0', 'H/2', 'E/1'}
+# if __name__ == "__main__":
+#   graph = """
+#   A>B A>C
+#   B>C
+#   B<D B>E C<E C<F
+#   D>E E<F
+#   D<G D<H E<H E<I F<I F<J
+#   G<H H>I I>J
+#   """
+#   g = makeGraph(edges=make_edges(graph))
+#   sprang_grundy(g, verbose=True) 
+#   # {'B/2', 'J/0', 'A/1', 'C/0', 'I/3', 'G/1', 
+#   #  'F/2', 'D/0', 'H/2', 'E/1'}
   
   
 ############## Frankel-Smith-Pearl Theory ################        
@@ -162,7 +162,8 @@ def compatible(g, value, node, assigns):
   if value != mexes(values):
     return False  # the mex value of the node does not fit the proposed value
 
-  # need also to check if the remaining nodes without values, or greater than n, revert to n
+  # need also to check if the remaining nodes without values, 
+  # or greater than n, revert to n
   for succ in g.successors(node):
     if succ not in assigns or assigns[succ] > value:
       found = False
@@ -225,21 +226,21 @@ def show_frankel_smith_pearl(graph, verbose=False):
   showGraph(g2)
   
   
-if __name__ == "__main__":
-  graph2 = """
-  A>B A>C
-  B>C
-  B<D B>E C<E C<F
-  D>E E<F
-  D<G D<H E>H E<I F<I F<J
-  G<H H>I I>J
-  G<K G<L H<L H<M I<M I>N J<N J>O
-  K<L L<M M<N N<O
-  """
-  g2 = makeGraph(edges=make_edges(graph2))
-  frankel_smith_pearl(g2, verbose=True) 
-  # ['A/1', 'B/2', 'C/0', 'D/0', 'E/1', 'F/2', 'G/1', 'H/2', 
-  #  'I/∞1,2', 'J/∞2', 'K/0', 'L/3', 'M/∞2,3', 'N/∞', 'O/∞']
+# if __name__ == "__main__":
+#   graph2 = """
+#   A>B A>C
+#   B>C
+#   B<D B>E C<E C<F
+#   D>E E<F
+#   D<G D<H E>H E<I F<I F<J
+#   G<H H>I I>J
+#   G<K G<L H<L H<M I<M I>N J<N J>O
+#   K<L L<M M<N N<O
+#   """
+#   g2 = makeGraph(edges=make_edges(graph2))
+#   frankel_smith_pearl(g2, verbose=True) 
+#   # ['A/1', 'B/2', 'C/0', 'D/0', 'E/1', 'F/2', 'G/1', 'H/2', 
+#   #  'I/∞1,2', 'J/∞2', 'K/0', 'L/3', 'M/∞2,3', 'N/∞', 'O/∞']
   
 ############## Larsen-Nowakovski-Santos Theory ################        
 
@@ -342,20 +343,20 @@ def show_larsen_nowakovski_santos(graph, grey_nodes, verbose=False):
   showGraph(g2)
   
   
-if __name__ == "__main__":
-  graph3 = """
-  A>B A>C
-  B>C
-  B<D B>E C<E C<F
-  D>E E>F
-  D>G D<H E<H E<I F<I F<J
-  G<H H>I I>J
-  G<K G<L H<L H<M I<M I>N J<N J>O
-  K<L L<M M>N N>O
-  """
-  g3 = makeGraph(edges=make_edges(graph3))
-  add_grey_nodes(g3, 'EG')
-  larsen_nowakovski_santos(g3, grey_nodes='EG', verbose=True)
+# if __name__ == "__main__":
+#   graph3 = """
+#   A>B A>C
+#   B>C
+#   B<D B>E C<E C<F
+#   D>E E>F
+#   D>G D<H E<H E<I F<I F<J
+#   G<H H>I I>J
+#   G<K G<L H<L H<M I<M I>N J<N J>O
+#   K<L L<M M>N N>O
+#   """
+#   g3 = makeGraph(edges=make_edges(graph3))
+#   add_grey_nodes(g3, 'EG')
+#   larsen_nowakovski_santos(g3, grey_nodes='EG', verbose=True)
 
 ##########################################################
 # transform a board into a graph
@@ -416,10 +417,10 @@ def read_board(size):
   return ' '.join(graph_text), ' '.join(black_board)
 
 
-if __name__ == "__main__":
-  graph, black_graph = read_board(3)
-  print('\n'*2, graph)
-  print('\n'*2, black_graph)
+# if __name__ == "__main__":
+#   graph, black_graph = read_board(3)
+#   print('\n'*2, graph)
+#   print('\n'*2, black_graph)
   
 
 ### useful functions for algorithm 4
@@ -438,19 +439,141 @@ def print_Grundy_values(size):
   for row in range(size):
     print(''.join(f'{grundy[coord(row, col)]:{width+2}}' for col in range(size-row)))
 
-if __name__ == "__main__":
-  # cf. https://library.slmath.org/books/Book56/files/43nivasch.pdf  
-  print_Grundy_values(4)  
+# if __name__ == "__main__":
+#   # cf. https://library.slmath.org/books/Book56/files/43nivasch.pdf  
+#   print_Grundy_values(4)  
 
 #################
 
-def cyclic_carry_on(graph, grey_nodes, verbose=False):
-  ...
+class Grey4:
+  def __init__(self, val=Z):
+    self.excepts = set()
+    self.val = val      
+  
+  def __add__(self, vals):
+    self.excepts |= vals
+    
+  def __sub__(self, vals):
+    self.excepts -= vals
+    
+  def invert(self):
+    """ requires: cannot be a moon value """
+    if self.excepts:
+      return Grey4(self.excepts)
+    else:
+      res = Grey4()
+      res.excepts = {self.val}
+      return res
+    
+  def __repr__(self):
+    if self.excepts == {Z}:
+      return '{}'
+    if self.excepts:
+      return 'Z\\\\{' + ','.join(map(str,self.excepts)) + '}'
+    return str(self.val)
 
 
 
+def mexes_grey4(g, node, succs, grey_nodes):
+  white_vals = {val for val in succs
+                    if type(val) == int}
+  # add to white values, the grey nodes with finite sets
+  white_vals |= {x for val in succs
+                   if type(val) == Grey4
+                   if not val.excepts and type(val.val) is set
+                   for x in val.val}
+  
+  grey_vals = {elem for val in succs
+                    if type(val) == Grey4
+                    for elem in val.excepts}
+
+  if node not in grey_nodes: # it is a regular white node
+    if NEWMOON in [node.val for node in succs if type(node) == Grey4]:
+      return FULLMOON
+    # if all sucessors are finite numbers and no successor is a grey node
+    # then just use regular mex()
+    if not grey_vals and all(type(x) != Grey for x in succs):
+      return mexes(white_vals)
+    # if all values are available, then it is a moon
+    if white_vals == grey_vals or \
+       any(type(x) == Grey4 and not x.excepts for x in succs):
+      return MOON
+    # if there are no values except grey nodes with Z, return 0
+    if not white_vals and not {x for x in grey_vals if x!=Z}:
+      return 0
+    # otherwise, we need to check what are still the available options
+    return min(grey_vals - white_vals)
+
+  else: # it is a grey node
+    succ_node = next(g.successors(node)) # only has one successor  
+    succ_value = succs[0]
+    
+    if   succ_node in grey_nodes and succ_value.val == FULLMOON:
+      val = Grey4(NEWMOON)
+    elif succ_node in grey_nodes and succ_value.val == NEWMOON:
+      val = Grey4(FULLMOON) 
+    elif succ_node in grey_nodes and type(succ_value.val) is set:
+      val = succ_value.invert()
+    elif succ_node in grey_nodes and succ_value.val == Z:
+      val = succ_value.invert()
+    # if it reaches here, the successor is a white node
+    elif succ_value == FULLMOON:
+      val = Grey4(NEWMOON)
+    elif succ_value == MOON:
+      val = Grey4() # a grey node with value Z
+    else:
+      val = Grey4()
+      val + {succ_value} # add an exception for the successor's value
+    return val
+  
+  
+FULLMOON, NEWMOON, MOON = 'φ', 'ν', 'μ'
+
+def cyclic_carry_on(g, grey_nodes, verbose=False):
+  assigns = {}                            # values to assign each node
+  to_assign = list(g.nodes)               # what nodes still need assigment
+  succ_values = {v:[] for v in to_assign} # which successors are computed
+
+  if verbose:
+    print('\nAlg-4 example:')
+    print('Node order: ', end='')
+    
+  # search terminal nodes, and assign them the value zero
+  for node in g:
+    if not list(g.successors(node)): # if it's a terminal node:
+      to_assign.remove(node)
+      assigns[node] = Grey4(NEWMOON) if node in grey_nodes else 0
+      if verbose:
+        print(node, assigns[node], end='  ')
+      
+      for succ in g.predecessors(node):
+        succ_values[succ].append(assigns[node])
+    else:
+      assigns[node] = Z  # default initialization for non-terminal nodes
 
 
+  while to_assign:
+    changed = False
+    
+    for node in to_assign:
+      if len(list(g.successors(node))) == len(succ_values[node]):
+        to_assign.remove(node)
+        changed = True
+        # everything computed, compute adjusted-mex value
+        assigns[node] = mexes_grey4(g, node, succ_values[node], grey_nodes)
+        if verbose:
+          print(node, assigns[node], end='  ')       
+        # communicate this new value to all its predecessors
+        for succ in g.predecessors(node):
+          succ_values[succ].append(assigns[node])
+    
+    if not changed:
+      break
+
+  if verbose:
+    print('\n', to_assign) # these ones must be dealt with the new revert
+
+  return assigns
 
 
 
@@ -473,12 +596,12 @@ if __name__ == "__main__":
         D2<D3             D4>D5             D6<D7
   D1<E1 D2>E2 D2>E3 D3>E2 D3>E3 D3<E4 D4<E4 D5<E5 D7<E7
   E1>C2 C3>E4
-  E1>E5                                     E5<E6 E6>E7
+  E1>E5 E2>E3 E3<E4                        E5<E6 E6>E7
   """
   g4 = makeGraph(edges=make_edges(graph4))
   grey_nodes = 'A4 B2 B4 C1 C2 C4 C7 D6 D7 E5'.split()
   add_grey_nodes(g4, grey_nodes)
-  cyclic_carry_on(g4, grey_nodes)
+  cyclic_carry_on(g4, grey_nodes, True)
 
 
 
