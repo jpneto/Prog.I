@@ -88,8 +88,8 @@ def make_edges(g):
 assert make_edges("A>B A>C B<C") == [('A','B'), ('A','C'), ('C','B')]
 
 # main user function
-def show_graph(graph):
-  showGraph(makeGraph(edges=make_edges(graph)))
+def show_graph(graph, prog='neato'):
+  showGraph(makeGraph(edges=make_edges(graph)), prog=prog)
 
 ############## Sprag-Grundy Theory ################        
  
