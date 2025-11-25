@@ -130,10 +130,10 @@ def sprang_grundy(g, verbose=False):
   return nx.relabel_nodes(g, new_labels)  # change graph labels
 
 
-def show_sprang_grundy(graph, verbose=False):
+def show_sprang_grundy(graph, prog='neato', verbose=False):
   g = makeGraph(edges=make_edges(graph))
   g2 = sprang_grundy(g, verbose)
-  showGraph(g2)
+  showGraph(g2, prog=prog)
   
 
 # if __name__ == "__main__":
@@ -220,10 +220,10 @@ def frankel_smith_pearl(g, verbose=False):
   return nx.relabel_nodes(g, new_labels)  # change graph labels
 
 
-def show_frankel_smith_pearl(graph, verbose=False):
+def show_frankel_smith_pearl(graph, prog='neato', verbose=False):
   g = makeGraph(edges=make_edges(graph))
   g2 = frankel_smith_pearl(g, verbose)
-  showGraph(g2)
+  showGraph(g2, prog=prog)
   
   
 # if __name__ == "__main__":
@@ -336,11 +336,12 @@ def larsen_nowakovski_santos(g, grey_nodes, verbose=False):
   return nx.relabel_nodes(g, new_labels)  # change graph labels
 
 
-def show_larsen_nowakovski_santos(graph, grey_nodes, verbose=False):
+def show_larsen_nowakovski_santos(graph, grey_nodes,
+                                  prog='neato', verbose=False):
   g = makeGraph(edges=make_edges(graph))
   add_grey_nodes(g, grey_nodes)
   g2 = larsen_nowakovski_santos(g, grey_nodes, verbose)
-  showGraph(g2)
+  showGraph(g2, prog=prog)
   
   
 # if __name__ == "__main__":
@@ -652,6 +653,14 @@ def cyclic_carry_on(g, grey_nodes, verbose=False):
     print('\nNodes with infinity:', to_assign) 
 
   return assigns
+
+
+def show_cyclic_carry_on(graph, grey_nodes,
+                                  prog='neato', verbose=False):
+  g = makeGraph(edges=make_edges(graph))
+  add_grey_nodes(g, grey_nodes)
+  g2 = cyclic_carry_on(g, grey_nodes, verbose)
+  showGraph(g2, prog=prog)
 
 
 if __name__ == "__main__":
