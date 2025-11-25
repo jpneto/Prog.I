@@ -647,12 +647,17 @@ def cyclic_carry_on(g, grey_nodes, verbose=False):
     if not changed:
       break
   
-  # all the remaining nodes are infinite
-      
+  # all the remaining nodes are infinite    
   if verbose:
     print('\nNodes with infinity:', to_assign) 
+    
+  new_labels = {} # relabel nodes to include their value
+  for node, mex in assigns.items():
+    new_labels[node] = f"{node}/{mex}"
 
-  return assigns
+  if verbose:
+    print('\n', sorted(new_labels.values()))
+  return nx.relabel_nodes(g, new_labels)  # change graph labels    
 
 
 def show_cyclic_carry_on(graph, grey_nodes,
@@ -662,6 +667,20 @@ def show_cyclic_carry_on(graph, grey_nodes,
   g2 = cyclic_carry_on(g, grey_nodes, verbose)
   showGraph(g2, prog=prog)
 
+
+# g = """
+# A1<A2                         A4<A5
+# A1>B1 A2>B2 A2>B3 A3<B3 A3>B4 A4>B4 A5<B5 A6<B6 A7<B7
+#       B2>C2                         B5<C5 B6<C6 B7<C7
+# C1<C1 C1<C3 C2<C3             C4>C5 C5<C5 C5>C6 C6>C7
+# C1<D1 C2>D2 C3>D3             C4<D4       C6<D6
+#       D2<D3             D4>D5             D6<D7
+# D1<E1 D2>E2 D2>E3 D3>E2 D3>E3 D3<E4 D4<E4 D5<E5 D7<E7
+# E1>C2 C3>E4
+# E1>E5 E2>E3 E3<E4                        E5<E6 E6>E7
+# """
+# grey_nodes = 'A4 B2 B4 C1 C2 C4 C7 D6 D7 E5'.split()
+# show_cyclic_carry_on(g, grey_nodes=grey_nodes)
 
 if __name__ == "__main__":
   graph4 = """
@@ -678,8 +697,7 @@ if __name__ == "__main__":
   g4 = makeGraph(edges=make_edges(graph4))
   grey_nodes = 'A4 B2 B4 C1 C2 C4 C7 D6 D7 E5'.split()
   add_grey_nodes(g4, grey_nodes)
-  assigns = cyclic_carry_on(g4, grey_nodes, False)
-  print(assigns)
+  g4a = cyclic_carry_on(g4, grey_nodes, False)
 
 
 
