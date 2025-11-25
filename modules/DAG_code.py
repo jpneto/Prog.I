@@ -473,6 +473,7 @@ class Grey4:
     return str(self.val)
 
 
+FULLMOON, NEWMOON, MOON = 'φ', 'ν', 'μ'
 
 def mexes_grey4(g, node, succs, grey_nodes):
   white_vals = {val for val in succs
@@ -494,9 +495,12 @@ def mexes_grey4(g, node, succs, grey_nodes):
     # then just use regular mex()
     if not grey_vals and all(type(x) != Grey for x in succs):
       return mexes(white_vals)
+    # check what are the shared exceptions among grey nodes:
+    exceptions = set.intersection(*[x.excepts for x in succs 
+                                              if type(x) == Grey4])
     # if all values are available, then it is a moon
     if white_vals == grey_vals or \
-       any(type(x) == Grey4 and not x.excepts for x in succs):
+       not exceptions and any(type(x) == Grey4 for x in succs):
       return MOON
     # if there are no values except grey nodes with Z, return 0
     if not white_vals and not {x for x in grey_vals if x!=Z}:
@@ -526,8 +530,53 @@ def mexes_grey4(g, node, succs, grey_nodes):
       val + {succ_value} # add an exception for the successor's value
     return val
   
+from functools import cache  
   
-FULLMOON, NEWMOON, MOON = 'φ', 'ν', 'μ'
+def is_revertible(g, grey_nodes, node, m, assigns, not_assigned):
+  @cache
+  def protection(grey_nd, m):
+
+    for succ in g.successors(grey_nd):
+      if succ in grey_nodes:
+        continue # only interested in white nodes here
+      if succ not in not_assigned:  # succ already has a value
+        if assigns[succ] in [MOON, FULLMOON]:
+          return True
+        if type(assigns[succ]) == int and assigns[succ] != m:
+          return True
+      else: # succ does not have a value
+        # need to check its successors
+        for succ2 in g.successors(succ):
+          if succ2 not in grey_nodes and \
+             succ2 not in not_assigned and \
+             assigns[succ2] == m:
+               return True
+          if succ2 in grey_nodes:
+            return protection(succ2, m)
+    
+  
+  # first check if there is a white-node successor's successor with m
+  if any(assigns[nd2] == m
+         for nd  in g.successors(node)  # get all successors of node
+         if  nd  in not_assigned        # check those not assigned
+         if  nd  not in grey_nodes      # which are white nodes
+         for nd2 in g.successors(nd)    # get its sucessors
+         if  nd2 not in grey_nodes):    # that are also white nodes
+    return True
+  
+  # get all grey nodes from node's sucessors which are not assigned yet
+  greys = [nd2 for nd in g.successors(node) 
+               if nd in not_assigned
+               for nd2 in g.successors(nd)
+               if nd2 in grey_nodes]
+  if not greys:
+    return False
+
+  if any(protection(nd, m) for nd in greys):
+    return True
+
+  return False
+
 
 def cyclic_carry_on(g, grey_nodes, verbose=False):
   assigns = {}                            # values to assign each node
@@ -535,8 +584,7 @@ def cyclic_carry_on(g, grey_nodes, verbose=False):
   succ_values = {v:[] for v in to_assign} # which successors are computed
 
   if verbose:
-    print('\nAlg-4 example:')
-    print('Node order: ', end='')
+    print('\nAlg-4\nNode order: ', end='')
     
   # search terminal nodes, and assign them the value zero
   for node in g:
@@ -544,7 +592,7 @@ def cyclic_carry_on(g, grey_nodes, verbose=False):
       to_assign.remove(node)
       assigns[node] = Grey4(NEWMOON) if node in grey_nodes else 0
       if verbose:
-        print(node, assigns[node], end='  ')
+        print(node, ':', assigns[node], sep='', end='  ')
       
       for succ in g.predecessors(node):
         succ_values[succ].append(assigns[node])
@@ -554,7 +602,6 @@ def cyclic_carry_on(g, grey_nodes, verbose=False):
 
   while to_assign:
     changed = False
-    
     for node in to_assign:
       if len(list(g.successors(node))) == len(succ_values[node]):
         to_assign.remove(node)
@@ -562,28 +609,49 @@ def cyclic_carry_on(g, grey_nodes, verbose=False):
         # everything computed, compute adjusted-mex value
         assigns[node] = mexes_grey4(g, node, succ_values[node], grey_nodes)
         if verbose:
-          print(node, assigns[node], end='  ')       
+          print(node, ':', assigns[node], sep='', end='  ')      
         # communicate this new value to all its predecessors
         for succ in g.predecessors(node):
           succ_values[succ].append(assigns[node])
-    
     if not changed:
       break
 
+  # check among the rest, if there are moons
+  for node in to_assign:
+    if not succ_values[node]:
+      continue
+    if mexes_grey4(g, node, succ_values[node], grey_nodes) == MOON:
+      assigns[node] = MOON
+      to_assign.remove(node)
+      if verbose:
+        print(node, ':', assigns[node], sep='', end='  ')      
+
+  # need to check the remainders by revert
+  print()
+  while to_assign:
+    changed = False
+    
+    for node in to_assign:
+      if succ_values[node]:
+        # find mex value to search, depends on current assigned successors
+        m = mexes_grey4(g, node, succ_values[node], grey_nodes)
+        # check if it is possible to revert to m
+        if is_revertible(g, grey_nodes, node, m, assigns, to_assign):
+          assigns[node] = m
+          to_assign.remove(node)
+          changed = True
+          if verbose:
+            print(node, ':', assigns[node], sep='', end='  ')      
+       
+    if not changed:
+      break
+  
+  # all the remaining nodes are infinite
+      
   if verbose:
-    print('\n', to_assign) # these ones must be dealt with the new revert
+    print('\nNodes with infinity:', to_assign) 
 
   return assigns
-
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == "__main__":
@@ -601,7 +669,8 @@ if __name__ == "__main__":
   g4 = makeGraph(edges=make_edges(graph4))
   grey_nodes = 'A4 B2 B4 C1 C2 C4 C7 D6 D7 E5'.split()
   add_grey_nodes(g4, grey_nodes)
-  cyclic_carry_on(g4, grey_nodes, True)
+  assigns = cyclic_carry_on(g4, grey_nodes, False)
+  print(assigns)
 
 
 
