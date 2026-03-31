@@ -91,8 +91,11 @@ assert make_edges("A>B A>C B<C") == [('A','B'), ('A','C'), ('C','B')]
 # main user function
 def show_graph(graph, prog='neato'):
   showGraph(makeGraph(edges=make_edges(graph)), prog=prog)
+<<<<<<< Updated upstream
 
 ############## Sprag-Grundy Theory ################
+=======
+>>>>>>> Stashed changes
 
 def mexes(ns):
   if not ns:
@@ -135,7 +138,11 @@ def show_sprang_grundy(graph, prog='neato', verbose=False):
   g = makeGraph(edges=make_edges(graph))
   g2 = sprang_grundy(g, verbose)
   showGraph(g2, prog=prog)
+<<<<<<< Updated upstream
 
+=======
+  
+>>>>>>> Stashed changes
 
 # if __name__ == "__main__":
 #   graph = """
@@ -225,8 +232,13 @@ def show_frankel_smith_pearl(graph, prog='neato', verbose=False):
   g = makeGraph(edges=make_edges(graph))
   g2 = frankel_smith_pearl(g, verbose)
   showGraph(g2, prog=prog)
+<<<<<<< Updated upstream
 
 
+=======
+  
+  
+>>>>>>> Stashed changes
 # if __name__ == "__main__":
 #   graph2 = """
 #   A>B A>C
@@ -343,8 +355,13 @@ def show_larsen_nowakovski_santos(graph, grey_nodes,
   add_grey_nodes(g, grey_nodes)
   g2 = larsen_nowakovski_santos(g, grey_nodes, verbose)
   showGraph(g2, prog=prog)
+<<<<<<< Updated upstream
 
 
+=======
+  
+  
+>>>>>>> Stashed changes
 # if __name__ == "__main__":
 #   graph3 = """
 #   A>B A>C
@@ -413,7 +430,11 @@ def mexes_grey4(g, node, succs, grey_nodes):  # TODO: criar nova func
     if not grey_vals and all(type(x) != Grey for x in succs):
       return mexes(white_vals)
     # check what are the shared exceptions among grey nodes:
+<<<<<<< Updated upstream
     exceptions = set.intersection(*[x.excepts for x in succs
+=======
+    exceptions = set.intersection(*[x.excepts for x in succs 
+>>>>>>> Stashed changes
                                               if type(x) == Grey4])
     # if all values are available, then it is a moon
     if white_vals == grey_vals or \
@@ -446,9 +467,15 @@ def mexes_grey4(g, node, succs, grey_nodes):  # TODO: criar nova func
       val = Grey4()
       val + {succ_value} # add an exception for the successor's value
     return val
+<<<<<<< Updated upstream
 
 from functools import cache
 
+=======
+  
+from functools import cache  
+  
+>>>>>>> Stashed changes
 def is_revertible(g, grey_nodes, node, m, assigns, not_assigned, succ_values):
   @cache
   def protection(grey_nd, m):
@@ -470,22 +497,81 @@ def is_revertible(g, grey_nodes, node, m, assigns, not_assigned, succ_values):
                return True
           if succ2 in grey_nodes:
             return protection(succ2, m)
+<<<<<<< Updated upstream
 
+=======
+  
+  
+  # if sum(nd in not_assigned for nd in g.successors(node)) == 0:
+  #   return True
+  
+  # if len(list(g.successors(node))) == len(succ_values[node]):
+  #   return True
+  
+  # first check if there is a white-node successor's successor with m
+  # if any(assigns[nd2] == m
+  #        for nd  in g.successors(node)  # get all successors of node
+  #        if  nd  in not_assigned        # check those not assigned
+  #        if  nd  not in grey_nodes      # which are white nodes
+  #        for nd2 in g.successors(nd)    # get its sucessors
+  #        if  nd2 not in grey_nodes):    # that are also white nodes
+  #   return True
+>>>>>>> Stashed changes
   result = True
   for nd  in g.successors(node):
     if  nd  in not_assigned:
       found = False
       for nd2 in g.successors(nd):
+<<<<<<< Updated upstream
+=======
+        
+>>>>>>> Stashed changes
         if  nd2 not in grey_nodes:
           if assigns[nd2] == m:
             found = True
             break
+<<<<<<< Updated upstream
+=======
+          
+>>>>>>> Stashed changes
         else:
           if protection(nd2, m):
             found = True
             break
+<<<<<<< Updated upstream
       result = result and found
   return result
+=======
+          
+      result = result and found
+      
+  return result
+   
+  # # get all grey nodes from node's sucessors which are not assigned yet
+  # greys = [nd2 for nd in g.successors(node) 
+  #              if nd in not_assigned
+  #              for nd2 in g.successors(nd)
+  #              if nd2 in grey_nodes]
+  # result = True
+  # for nd in g.successors(node):
+  #   if nd in not_assigned:
+  #     found = False
+  #     for nd2 in g.successors(nd):
+  #       if nd2 in grey_nodes:
+  #         found = protection(nd, m)
+  #     result = result and found
+  # if not result:
+  #   return False
+      
+  
+  # if not greys:
+  #   return False
+
+  # if any(protection(nd, m) for nd in greys):
+  #   return True
+
+  # return False
+>>>>>>> Stashed changes
 
 
 def cyclic_carry_on(g, grey_nodes, verbose=False):
@@ -495,7 +581,11 @@ def cyclic_carry_on(g, grey_nodes, verbose=False):
 
   if verbose:
     print('\nAlg-4\nNode order: ', end='')
+<<<<<<< Updated upstream
 
+=======
+    
+>>>>>>> Stashed changes
   # search terminal nodes, and assign them the value zero
   for node in g:
     if not list(g.successors(node)): # if it's a terminal node:
@@ -503,7 +593,11 @@ def cyclic_carry_on(g, grey_nodes, verbose=False):
       assigns[node] = Grey4(NEWMOON) if node in grey_nodes else 0
       if verbose:
         print(node, ':', assigns[node], sep='', end='  ')
+<<<<<<< Updated upstream
 
+=======
+      
+>>>>>>> Stashed changes
       for succ in g.predecessors(node):
         succ_values[succ].append(assigns[node])
     else:
@@ -519,7 +613,11 @@ def cyclic_carry_on(g, grey_nodes, verbose=False):
         # everything computed, compute adjusted-mex value
         assigns[node] = mexes_grey4(g, node, succ_values[node], grey_nodes)
         if verbose:
+<<<<<<< Updated upstream
           print(node, ':', assigns[node], sep='', end='  ')
+=======
+          print(node, ':', assigns[node], sep='', end='  ')      
+>>>>>>> Stashed changes
         # communicate this new value to all its predecessors
         for succ in g.predecessors(node):
           succ_values[succ].append(assigns[node])
@@ -534,13 +632,21 @@ def cyclic_carry_on(g, grey_nodes, verbose=False):
       assigns[node] = MOON
       to_assign.remove(node)
       if verbose:
+<<<<<<< Updated upstream
         print(node, ':', assigns[node], sep='', end='  ')
+=======
+        print(node, ':', assigns[node], sep='', end='  ')      
+>>>>>>> Stashed changes
 
   # need to check the remainders by revert
   print()
   while to_assign:
     changed = False
+<<<<<<< Updated upstream
 
+=======
+    
+>>>>>>> Stashed changes
     for node in to_assign:
       if succ_values[node]:
         # find mex value to search, depends on current assigned successors
@@ -554,6 +660,7 @@ def cyclic_carry_on(g, grey_nodes, verbose=False):
             succ_values[succ].append(assigns[node])
           changed = True
           if verbose:
+<<<<<<< Updated upstream
             print(node, ':', assigns[node], sep='', end='  ')
 
     if not changed:
@@ -572,12 +679,187 @@ def cyclic_carry_on(g, grey_nodes, verbose=False):
   return nx.relabel_nodes(g, new_labels)  # change graph labels
 
 
+=======
+            print(node, ':', assigns[node], sep='', end='  ')      
+       
+    if not changed:
+      break
+  
+  # all the remaining nodes are infinite    
+  if verbose:
+    print('\nNodes with infinity:', to_assign) 
+    
+  new_labels = {} # relabel nodes to include their value
+  for node, mex in assigns.items():
+    new_labels[node] = f"{node}/{mex}"
+
+  if verbose:
+    print('\n', sorted(new_labels.values()))
+  return nx.relabel_nodes(g, new_labels)  # change graph labels    
+
+
+>>>>>>> Stashed changes
 def show_cyclic_carry_on(graph, grey_nodes,
                                   prog='neato', verbose=False):
   g = makeGraph(edges=make_edges(graph))
   add_grey_nodes(g, grey_nodes)
   g2 = cyclic_carry_on(g, grey_nodes, verbose)
   showGraph(g2, prog=prog)
+<<<<<<< Updated upstream
+=======
+
+
+# if __name__ == "__main__":
+#   graph4 = """
+#   A1<A2                         A4<A5
+#   A1>B1 A2>B2 A2>B3 A3<B3 A3>B4 A4>B4 A5<B5 A6<B6 A7<B7
+#         B2>C2                         B5<C5 B6<C6 B7<C7
+#   C1<C1 C1<C3 C2<C3             C4>C5 C5<C5 C5>C6 C6>C7
+#   C1<D1 C2>D2 C3>D3             C4<D4       C6<D6
+#         D2<D3             D4>D5             D6<D7
+#   D1<E1 D2>E2 D2>E3 D3>E2 D3>E3 D3<E4 D4<E4 D5<E5 D7<E7
+#   E1>C2 C3>E4
+#   E1>E5 E2>E3 E3<E4                        E5<E6 E6>E7
+#   """
+#   g4 = makeGraph(edges=make_edges(graph4))
+#   grey_nodes = 'A4 B2 B4 C1 C2 C4 C7 D6 D7 E5'.split()
+#   add_grey_nodes(g4, grey_nodes)
+#   g4a = cyclic_carry_on(g4, grey_nodes, False)
+
+
+##########################################################
+# transform a board into a graph
+
+def read_board(size):
+  # TODO: legacy code: initially I thought board could have arbitrary shapes
+  #       but they are always triangular
+  board = '\n'.join('. '*(size-i) for i in range(size)) 
+  coord = lambda i,j: chr(64+i) + str(j)
+  graph_text = []
+
+  # make coordinates for black moves
+  lines = board.split('\n')
+  for i, line in enumerate(lines, start=1):
+    for j, cell in enumerate(line.strip().split(' '), start=1):
+      for k in range(1, j):         # add horizontal edges
+        graph_text.append( coord(i,j) + '>' + coord(i,k) )
+      for k in range(1, i):         # add vertical edges
+        graph_text.append( coord(i,j) + '>' + coord(k,j) )  
+      for k in range(1, min(i,j)):  # add diagonal edges
+        graph_text.append( coord(i,j) + '>' + coord(i-k,j-k) )
+  # save the board where the black pieces move, since its values
+  # are just those from Sprang-Grundy theory
+  black_board = graph_text[:]
+
+  # make coordinates for white moves
+  coord2 = lambda i,j: chr(64+i) + chr(64+i) + str(j)
+  for i in range(3, 1+lines[0].count('.'), 2): # jump to next white diagonal
+    for j in range(i):
+      for k in range(i):
+        if j<=k: continue # no self-loops and avoid duplicates
+        graph_text.append( coord2(i-k, k+1) + '>' + coord2(i-j, j+1) )
+        graph_text.append( coord2(i-k, k+1) + '<' + coord2(i-j, j+1) )
+  
+  # we also need to deal with white stones in black squares        
+  for i, line in enumerate(lines, start=1):  
+    for j, cell in enumerate(line.strip().split(' '), start=1):
+      if (i+j)%2 == 0: continue  # a white square
+      for k in range(1, j):         # add horizontal edges
+        graph_text.append( coord2(i,j) + '>' + coord2(i,k) )
+      for k in range(1, i):         # add vertical edges
+        graph_text.append( coord2(i,j) + '>' + coord2(k,j) )  
+      for k in range(1, min(i,j)):  # add diagonal edges
+        graph_text.append( coord2(i,j) + '>' + coord2(i-k,j-k) )      
+  
+  # make coordinates for white -> black flips
+  coord3 = lambda i,j,k,l: 'G_' + chr(64+i) + str(j) + chr(64+k) + str(l)
+  for i in range(3, 1+lines[0].count('.'), 2): # just jump to the next white diagonal
+    for j in range(i):
+      r, c = i-j, j+1
+      if r > 1: # connect to the north cell in black board, via a grey node
+        graph_text.append( coord2(r, c) + '>' + coord3(r, c, r-1, c) )
+        graph_text.append( coord3(r, c, r-1, c) + '>' + coord(r-1, c) )
+      if c > 1: # connect to the west cell in black board, via a grey node
+        graph_text.append( coord2(r, c) + '>' + coord3(r, c, r, c-1) )
+        graph_text.append( coord3(r, c, r, c-1) + '>' + coord(r, c-1) )
+ 
+  return ' '.join(graph_text), ' '.join(black_board)
+
+
+# if __name__ == "__main__":
+#   graph, black_graph = read_board(3)
+#   print('\n'*2, graph)
+#   print('\n'*2, black_graph)
+  
+
+### useful functions for algorithm 4
+
+def compute_Grundy_values(size):
+  graph, black_graph = read_board(size)
+  # compute Grundy function of Wythoff’s game
+  g = sprang_grundy(makeGraph(edges=make_edges(black_graph)))
+  # return values as a dictionary, eg: dict['A1'] = 0
+  return {node.split('/')[0] : int(node.split('/')[1]) for node in g.nodes}
+
+
+def print_Grundy_values(size):
+  coord = lambda i,j: chr(65+i) + str(j+1)  # maps (row,col) to Chess-like coordinate
+  grundy = compute_Grundy_values(size)
+  width = max(map(lambda n: len(str(n)), grundy.values())) # compute max width needed
+  for row in range(size):
+    print(''.join(f'{grundy[coord(row, col)]:{width+2}}' for col in range(size-row)))
+
+# if __name__ == "__main__":
+#   # cf. https://library.slmath.org/books/Book56/files/43nivasch.pdf  
+#   print_Grundy_values(4)  
+
+# from collections import defaultdict
+
+def print_board(size):
+  coord = lambda i,j: chr(65+i) + str(j+1) # maps (row,col) to Chess-like coordinate
+  coord2 = lambda i,j: chr(65+i) + chr(65+i) + str(j+1) 
+  
+  edges, _ = read_board(size)
+  grey_nodes = set()
+  for edge in edges.split():
+    arrow = '<' if '<' in edge else '>'
+    for node in edge.split(arrow):
+      if node[:2] == 'G_':
+        grey_nodes.add(node)
+        
+  g = makeGraph(edges=make_edges(edges))
+  add_grey_nodes(g, grey_nodes)
+
+  g = cyclic_carry_on(g, list(grey_nodes), False)
+  
+  dic = {}
+  max_width_black,max_width_white = 0, 0
+  for node in g.nodes():
+    node, value = node.split('/')
+    if value == 'inf':
+      value = '∞'
+    if len(node) == 2:
+      max_width_black = max(max_width_black, len(value))
+    elif len(node) == 3:
+      max_width_white = max(max_width_white, len(value))
+    dic[node] = value
+    
+  # print black stones  
+  for row in range(size):
+    print(''.join(f'{dic[coord(row, col)]:{max_width_black+2}}' 
+                  for col in range(size-row)))
+  # print white stones
+  for row in range(size):
+    print(''.join(f'{dic[coord2(row, col)]:{max_width_white+2}}' 
+                  for col in range(size-row)))
+  
+  # print carry ons
+  for node in sorted(grey_nodes):
+    value = dic[node].replace(r'\\', '\\')
+    print(f'{node}: {value}')
+  
+# print_board(5)
+>>>>>>> Stashed changes
 
 
 # if __name__ == "__main__":
@@ -600,7 +882,11 @@ def show_cyclic_carry_on(graph, grey_nodes,
 # TODO: a 3ª linha diagonal branca tem de dar  ∞  μ  0  μ  ∞
 if __name__ == "__main__":
   graph4 = """
+<<<<<<< Updated upstream
   B>A
+=======
+  B>A 
+>>>>>>> Stashed changes
   C>A
   D>A
   E>A E>D
@@ -760,4 +1046,8 @@ def print_board(size):
 
 
 
+<<<<<<< Updated upstream
 
+=======
+  
+>>>>>>> Stashed changes
